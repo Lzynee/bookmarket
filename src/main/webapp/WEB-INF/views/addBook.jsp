@@ -114,6 +114,9 @@
         <div class="col-sm-3">
           <form:input path="unitsInStock" cssClass="form-control"/>
         </div>
+        <div class="col-sm-6">
+          <form:errors path="unitsInStock" cssClass="text-danger"/>
+        </div>
       </div>
       <div class="form-group row">
         <label class="col-sm-2 custom-control-label">

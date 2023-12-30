@@ -4,6 +4,8 @@ import kr.co.chunjae.domain.Book;
 import kr.co.chunjae.exception.BookIdException;
 import kr.co.chunjae.exception.CategoryException;
 import kr.co.chunjae.service.BookService;
+import kr.co.chunjae.validator.UnitsInStockValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,9 @@ import java.util.*;
 public class BookController {
 
     private final BookService bookService;
+
+    @Autowired  // UnitsInStockValidator의 인스턴스 선언
+    private UnitsInStockValidator unitsInStockValidator;
 
     public BookController(BookService bookService) {
         this.bookService = bookService;
@@ -138,6 +143,9 @@ public class BookController {
     // 저장소 객체에 신규 도서 정보를 저장한다.
     @InitBinder
     public void initBinder(WebDataBinder binder) {  // 바인딩할 커맨드 객체의 필드 이름 설정
+
+        binder.setValidator(unitsInStockValidator);  // 생성한 unitsInStockValidator 설정
+
         binder.setAllowedFields("bookId", "name", "unitPrice", "author",
                 "description", "publisher", "category", "unitsInStock",
                 "totalPages", "releaseDate", "condition", "bookImage");
