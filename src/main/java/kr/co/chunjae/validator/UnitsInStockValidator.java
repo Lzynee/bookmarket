@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Validator;
 import org.springframework.validation.Errors;
 
+import java.math.BigDecimal;
+
 @Component
 public class UnitsInStockValidator implements Validator {
 
@@ -16,7 +18,7 @@ public class UnitsInStockValidator implements Validator {
 
         Book book = (Book) target;
         // 도서 가격이 1만원 이상이고, 재고가 99권을 초과하면 유효성 검사를 할 때 오류 발생
-        if (book.getUnitPrice() >= 10000 && book.getUnitsInStock() > 99) {
+        if (book.getUnitPrice().compareTo(new BigDecimal(10000)) >= 0 && book.getUnitsInStock() > 99) {
             // 오류 객체의 속성과 메시지 저장
             errors.rejectValue("unitsInStock", "UnitsInStockValidator.message");
         }

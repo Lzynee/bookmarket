@@ -10,7 +10,7 @@
 
 
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven enable-matrix-variables="true" />
+	<annotation-driven enable-matrix-variables="true" validator="validator"/> <!-- LocalValidatorFactoryBean 빈 객체의 id 이름을 이용한다. -->
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -59,5 +59,24 @@
 				class="org.springframework.context.support.ResourceBundleMessageSource">  <!-- 클래스 등록 -->
 		<beans:property name="basename" value="messages"/>  <!-- 메시지 리소스 파일명 -->
 		<beans:property name="defaultEncoding" value="UTF-8"/>  <!-- 한글 출력 -->
+	</beans:bean>
+
+	<!-- Validator -->
+	<!-- JSR-380 유효성 검사를 위해 LocalValidatorFactoryBean 클래스를 빈으로 등록한다. -->
+	<beans:bean id="validator"
+				class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<beans:property name="validationMessageSource" ref="messageSource"/>
+	</beans:bean>
+
+	<!-- Validator 인터페이스의 구현체인 UnitsInStockValidator 빈 객체를 등록해 오류 메시지를 전달받는다. -->
+	<beans:bean id="unitsInStockValidator"
+				class="kr.co.chunjae.validator.UnitsInStockValidator"/>
+	<!-- BookValidator 빈 객체 등록 => JSR-380과 Validator 인터페이스를 서로 연동 -->
+	<beans:bean id="bookValidator" class="kr.co.chunjae.validator.BookValidator">
+		<beans:property name="springValidators">
+			<beans:set>
+				<beans:ref bean="unitsInStockValidator"/>
+			</beans:set>
+		</beans:property>
 	</beans:bean>
 </beans:beans>
