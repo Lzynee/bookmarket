@@ -6,12 +6,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 // JSR-380 애너테이션 패키지 임포트
 import javax.validation.constraints.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Getter
 @Setter
 @ToString
-public class Book {
+@SuppressWarnings("serial")
+public class Book implements Serializable {
 
     @Pattern(regexp="ISBN[1-9]+", message = "{Pattern}")  // bookId의 제약 사항: 첫 문자가 ISBN으로 시작하여 1부터 9까지 연속된 숫자가 오는 정규 표현식
     // 유효성 검사 시 bookId값이 패턴과 일치하지 않으면 메시지 리소스 파일에 선언된 Pattern 메시지를 출력한다.

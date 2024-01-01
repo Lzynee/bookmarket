@@ -1,10 +1,12 @@
 package kr.co.chunjae.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Cart {
+@SuppressWarnings("serial")
+public class Cart implements Serializable {
 
     private String cartId;  // 장바구니 ID
     private Map<String, CartItem> cartItems;  // 장바구니 항목

@@ -1,12 +1,14 @@
 package kr.co.chunjae.domain;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * 장바구니 정보를 담는 도메인 객체
  * */
 
-public class CartItem {
+@SuppressWarnings("serial")
+public class CartItem implements Serializable {
 
     private Book book;  // 도서
     private int quantity;  // 도서 개수
