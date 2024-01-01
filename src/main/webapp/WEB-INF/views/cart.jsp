@@ -6,6 +6,7 @@
   <link href="<c:url value="/resources/css/bootstrap.min.css"/>"
         rel="stylesheet">
   <script src="<c:url value="/resources/js/controllers.js"/>"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <title>Cart</title>
 </head>
 <body>
@@ -24,6 +25,10 @@
 
 <div class="container">
   <div>
+    <form:form name="clearForm" method="delete">
+      <input type="hidden" id="cartId" value="${cartId}">
+      <a href="javascript:clearCart()" class="btn badge-danger pull-left">삭제하기</a>
+    </form:form>
     <a href="#" class="btn btn-success float-right">주문하기</a>
   </div>
   <div style="padding-top: 50px">

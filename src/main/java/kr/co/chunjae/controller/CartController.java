@@ -105,4 +105,11 @@ public class CartController {
         cart.removeCartItem(new CartItem(book));
         cartService.update(sessionId, cart);  // 세션 ID에 대한 장바구니 갱신하기
     }
+
+    // 장바구니에 등록된 모든 도서를 삭제한다.
+    @DeleteMapping("/{cartId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCartList(@PathVariable("cartId") String cartId) {
+        cartService.delete(cartId);
+    }
 }
