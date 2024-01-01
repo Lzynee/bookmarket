@@ -1,8 +1,13 @@
 package kr.co.chunjae.controller;
 
+import kr.co.chunjae.domain.Book;
 import kr.co.chunjae.domain.Cart;
+import kr.co.chunjae.domain.CartItem;
+import kr.co.chunjae.exception.BookIdException;
+import kr.co.chunjae.service.BookService;
 import kr.co.chunjae.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +24,9 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private BookService bookService;
 
     // 웹 요청 URL이 ... /cart/일 때 요청 처리 메서드
     @GetMapping
@@ -49,5 +57,30 @@ public class CartController {
     @PutMapping("/{cartId}")
     public @ResponseBody Cart read(@PathVariable(value = "cartId") String cartId) {
         return cartService.read(cartId);
+    }
+
+    // 장바구니 등록 메서드
+    // 경로 변수 bookId에 대해 해당 도서를 장바구니에 추가로 등록하고 장바구니를 갱신한다.
+    @PutMapping("/add/{bookId}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)  // 오류 응답 상태 코드 설정
+    public void addCartByNewItem(@PathVariable String bookId,
+                                 HttpServletRequest request) {
+
+        // 장바구니 ID인 세션ID 가져오기
+        String sessionId = request.getSession(true).getId();
+        Cart cart = cartService.read(sessionId);  // 장바구니에 등록된 모든 정보 얻어 오기
+
+        if (cart == null)
+            cart = cartService.create(new Cart(sessionId));
+
+        // 경로 변수 bookId에 대한 정보 얻어 오기
+        Book book = bookService.getBookById(bookId);
+
+        if (book == null)
+            throw new IllegalArgumentException(new BookIdException(bookId));
+
+        // bookId에 대한 도서 정보를 장바구니에 등록하기
+        cart.addCartItem(new CartItem(book));
+        cartService.update(sessionId, cart);  // 세션 ID에 대한 장바구니 갱신하기
     }
 }

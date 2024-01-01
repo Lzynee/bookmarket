@@ -40,4 +40,18 @@ public class CartRepositoryImpl implements CartRepository {
     public Cart read(String cartId) {
         return listOfCarts.get(cartId);
     }
+
+    // 장바구니 등록 메서드
+    @Override
+    public void update(String cartId, Cart cart) {
+
+        if (!listOfCarts.keySet().contains(cartId)) {
+
+            // 장바구니 ID가 존재하지 않은 경우 예외 처리
+            throw new IllegalArgumentException(String.format("장바구니 목록을 갱신할 수 " +
+                    "없습니다. 장바구니 id(%)가 존재하지 않습니다.", cartId));
+        }
+
+        listOfCarts.put(cartId, cart);
+    }
 }

@@ -10,4 +10,6 @@ public interface CartRepository {
 
     Cart create(Cart cart);
     Cart read(String cartId);
+
+    void update(String cartId, Cart cart);  // 장바구니 등록 메서드
 }
