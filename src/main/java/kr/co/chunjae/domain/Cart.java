@@ -1,24 +1,19 @@
 package kr.co.chunjae.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
-@Setter
 public class Cart {
 
     private String cartId;  // 장바구니 ID
     private Map<String, CartItem> cartItems;  // 장바구니 항목
-    private int grandTotal;  // 총액
+    private BigDecimal grandTotal;  // 총액
 
     // 기본 생성자
     public Cart() {
         cartItems = new HashMap<String, CartItem>();
-        grandTotal = 0;
+        grandTotal = BigDecimal.valueOf(0);
     }
 
     // 일반 생성자
@@ -27,13 +22,37 @@ public class Cart {
         this.cartId = cartId;
     }
 
+    public String getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(String cartId) {
+        this.cartId = cartId;
+    }
+
+    public Map<String, CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(Map<String, CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public BigDecimal getGrandTotal() {
+        return grandTotal;
+    }
+
+    public void setGrandTotal(BigDecimal grandTotal) {
+        this.grandTotal = grandTotal;
+    }
+
     // 장바구니에 등록되는 도서 가격의 총액 산출
     public void updateGrandTotal() {
 
-        grandTotal = 0;
+        grandTotal = BigDecimal.ZERO;
 
         for (CartItem item : cartItems.values()) {
-            grandTotal = grandTotal + new BigDecimal("item.getTotalPrice()").intValue();
+            grandTotal = grandTotal.add(item.getTotalPrice());
         }
     }
 
@@ -74,7 +93,7 @@ public class Cart {
 
     /**
      * RESTful 웹 서비스 구현
-     * 장바구니 등록
+     * 장바구니 기능
      * */
     // 도서 목록 중 선택한 도서를 장바구니에 등록한다.
     public void addCartItem(CartItem item) {
@@ -91,6 +110,15 @@ public class Cart {
         } else {
             cartItems.put(bookId, item);  // 도서 ID에 대한 도서 정보(item) 저장
         }
+
+        updateGrandTotal();  // 총액 갱신
+    }
+
+    // 장바구니에 등록된 도서 항목을 삭제한다.
+    public void removeCartItem(CartItem item) {
+
+        String bookId = item.getBook().getBookId();  // 삭제할 도서 ID 가져오기
+        cartItems.remove(bookId);  // bookId 도서 삭제
 
         updateGrandTotal();  // 총액 갱신
     }
