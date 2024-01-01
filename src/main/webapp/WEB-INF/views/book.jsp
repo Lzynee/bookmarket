@@ -1,10 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%-- 도서 상세 정보 화면 --%>
 <html>
 <head>
   <link href="<c:url value="/resources/css/bootstrap.min.css"/>"
         rel="stylesheet">
+  <script src="${pageContext.request.contextPath}/resources/js/controllers.js"></script>
   <title>도서 상세 정보</title>
 </head>
 <body>
@@ -45,10 +47,14 @@
       <p><b>재고수 : </b>${book.unitsInStock}</p>
       <h4>${book.unitPrice}원</h4>
       <br>
-      <p><a href="#" class="btn btn-secondary">도서주문 &raquo;</a>
-        <a href="<c:url value="/cart" />" class="btn btn-warning">장바구니 &raquo;</a>  <%-- 장바구니 버튼 => /cart로 이동--%>
-        <a href="<c:url value="/books" />" class="btn btn-secondary">도서 목록 &raquo;</a>
-      </p>
+      <form:form name="addForm" method="put">  <%-- 도서 주문 버튼 동작을 수행하도록 설정한다. --%>
+        <p><a href="javascript:addToCart('../cart/add/${book.bookId}')"
+              class="btn btn-secondary">도서주문 &raquo;</a>
+          <a href="<c:url value="/cart" />" class="btn btn-warning">장바구니 &raquo;</a>  <%-- 장바구니 버튼 => /cart로 이동--%>
+          <a href="<c:url value="/books" />" class="btn btn-secondary">도서 목록 &raquo;</a>
+        </p>
+      </form:form>
+      
     </div>
   </div>
   <hr>
