@@ -35,7 +35,7 @@ public class CartController {
     }
 
     // 웹 요청 URI가 ... /cart/cartId이고 HTTP 메서드가 GET 방식일 때 매핑된다.
-    @GetMapping
+    @GetMapping("/{cartId}")
     public String requestCartList(@PathVariable(value = "cartId") String cartId,
                                   Model model) {  // 경로 변수 : cardId
 

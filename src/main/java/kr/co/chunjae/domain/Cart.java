@@ -3,6 +3,7 @@ package kr.co.chunjae.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class Cart {
         grandTotal = 0;
 
         for (CartItem item : cartItems.values()) {
-            grandTotal = grandTotal + item.getTotalPrice();
+            grandTotal = grandTotal + new BigDecimal("item.getTotalPrice()").intValue();
         }
     }
 

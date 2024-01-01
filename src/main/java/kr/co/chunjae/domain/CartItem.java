@@ -1,7 +1,6 @@
 package kr.co.chunjae.domain;
 
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import java.math.BigDecimal;
 
 /**
  * 장바구니 정보를 담는 도메인 객체
@@ -11,7 +10,7 @@ public class CartItem {
 
     private Book book;  // 도서
     private int quantity;  // 도서 개수
-    private int totalPrice;  // 도서 가격
+    private BigDecimal totalPrice;  // 도서 가격
 
     // 기본 생성자
     public CartItem() {
@@ -45,13 +44,13 @@ public class CartItem {
         this.updateTotalPrice();
     }
 
-    public int getTotalPrice() {
+    public BigDecimal getTotalPrice() {
         return totalPrice;
     }
 
     // 장바구니에 등록되는 도서별 총액 산출
     public void updateTotalPrice() {
-        totalPrice = this.book.getUnitPrice() * this.quantity;
+        totalPrice = this.book.getUnitPrice().multiply(new BigDecimal(this.quantity));
     }
 
     @Override
