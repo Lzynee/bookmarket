@@ -1,16 +1,13 @@
 package kr.co.chunjae.domain;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 public class Cart {
 
     private String cartId;  // 장바구니 ID
