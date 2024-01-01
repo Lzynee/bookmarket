@@ -37,6 +37,17 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!-- RESTful HTTP CRUD Methods -->
+    <filter>
+        <filter-name>httpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>httpMethodFilter</filter-name>
+        <servlet-name>appServlet</servlet-name>
+    </filter-mapping>
+
     <!-- Creates the Spring Container shared by all Servlets and Filters -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
