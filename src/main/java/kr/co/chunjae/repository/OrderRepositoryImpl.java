@@ -5,7 +5,6 @@ package kr.co.chunjae.repository;
  * */
 
 import kr.co.chunjae.domain.Order;
-import lombok.Synchronized;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -31,9 +30,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         return order.getOrderId();
     }
 
-    private Synchronized
-
-    long getNextOrderId() {
+    private synchronized long getNextOrderId() {
         return nextOrderId++;
     }
 }

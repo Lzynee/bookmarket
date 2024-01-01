@@ -5,6 +5,7 @@ package kr.co.chunjae.service;
  * */
 
 import kr.co.chunjae.domain.Cart;
+import kr.co.chunjae.exception.CartException;
 import kr.co.chunjae.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,17 @@ public class CartServiceImpl implements CartService {
     @Override
     public void delete(String cartId) {
         cartRepository.delete(cartId);
+    }
+
+    // 장바구니 저장소 객체에 장바구니 ID가 없으면 예외 처리 메서드를 호출한다.
+    @Override
+    public Cart validateCart(String cartId) {
+
+        Cart cart = cartRepository.read(cartId);
+
+        if (cart == null || cart.getCartItems().size() == 0)
+            throw new CartException(cartId);
+
+        return cart;
     }
 }
